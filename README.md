@@ -1,2 +1,2 @@
 # ceetle
-A Rust Library for defining and verifying Computational Tree Logic semantics
+A Rust Library for defining models in Computational Tree Logic and verifying their semantics
