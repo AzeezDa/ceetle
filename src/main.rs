@@ -1,7 +1,7 @@
 use ceetle::ctl;
 
 pub fn main() {
-    let x = ctl!(AX(AG(2)));
+    let x = ctl!(AX, ctl!(Atom, 2));
 
     println!("{}", x);
 }

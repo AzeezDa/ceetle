@@ -2,11 +2,11 @@ use std::fmt;
 
 #[macro_export]
 macro_rules! ctl {
-    () => {};
-    ($func:tt($($tail:tt)*)) => { ceetle::CTLFormula::$func(Box::new(ctl!($($tail)*))) };
-    (True) => { ceetle::CTLFormula::True };
-    (False) => { ceetle::CTLFormula::False };
-    ($e:expr) => { ceetle::CTLFormula::Atom(Box::new($e)) };
+    (True) => {ceetle::CTLFormula::True};
+    (False) => {ceetle::CTLFormula::False};
+    (Atom, $e1:expr) => {ceetle::CTLFormula::Atom($e1)};
+    ($t:tt, $e1:expr) => {ceetle::CTLFormula::$t(Box::new($e1))};
+    ($t:tt, $e1:expr, $e2:expr) => {ceetle::CTLFormula::$t(Box::new($e1), Box::new($e1))};
 }
 
 pub enum CTLFormula<T: PartialEq> {
