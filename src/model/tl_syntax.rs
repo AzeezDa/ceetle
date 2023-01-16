@@ -6,7 +6,17 @@ macro_rules! ctl {
     (False) => {ceetle::CTLFormula::False};
     (Atom, $e1:expr) => {ceetle::CTLFormula::Atom($e1)};
     ($t:tt, $e1:expr) => {ceetle::CTLFormula::$t(Box::new($e1))};
-    ($t:tt, $e1:expr, $e2:expr) => {ceetle::CTLFormula::$t(Box::new($e1), Box::new($e1))};
+    ($t:tt, $e1:expr, $e2:expr) => {ceetle::CTLFormula::$t(Box::new($e1), Box::new($e2))};
+}
+
+// Used for testing and debugging
+#[macro_export]
+macro_rules! _ctlb {
+    (True) => {CTLFormula::True};
+    (False) => {CTLFormula::False};
+    (Atom, $e1:expr) => {CTLFormula::Atom($e1)};
+    ($t:tt, $e1:expr) => {CTLFormula::$t(Box::new($e1))};
+    ($t:tt, $e1:expr, $e2:expr) => {CTLFormula::$t(Box::new($e1), Box::new($e2))};
 }
 
 pub enum CTLFormula<T: PartialEq> {
