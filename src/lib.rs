@@ -69,9 +69,9 @@ mod tests {
             ]
         );
 
-        assert!(verify(&model, &"s0", &_ctlb!(EX, _ctlb!(Atom, "p"))));
-        assert!(!verify(&model, &"s0", &_ctlb!(EX, _ctlb!(And, _ctlb!(Atom, "p"), _ctlb!(Atom, "q")))));
-        assert!(verify(&model, &"s0", &_ctlb!(EX, _ctlb!(EX, _ctlb!(And, _ctlb!(Atom, "p"), _ctlb!(Atom, "q"))))));
+        assert!(verify(&model, &"s0", &ctl!(EX(Atom("p")))));
+        assert!(!verify(&model, &"s0", &ctl!(EX(And(Atom("p"), Atom("q"))))));
+        assert!(verify(&model, &"s0", &ctl!(EX(EX(And(Atom("p"), Atom("q")))))));
     }
 
     #[test]
@@ -91,9 +91,9 @@ mod tests {
             ]
         );
 
-        assert!(verify(&model, &"s0", &_ctlb!(AX, _ctlb!(Or, _ctlb!(Atom, "p"), _ctlb!(Atom, "q")))));
-        assert!(!verify(&model, &"s0", &_ctlb!(AX, _ctlb!(AX, _ctlb!(AX, _ctlb!(Or, _ctlb!(Atom, "p"), _ctlb!(Atom, "q")))))));
-        assert!(verify(&model, &"s0", &_ctlb!(AX, _ctlb!(Imply, _ctlb!(Atom, "p"), _ctlb!(Not, _ctlb!(Atom, "q"))))));
+        assert!(verify(&model, &"s0", &ctl!(AX(Or(Atom("p"), Atom("q"))))));
+        assert!(!verify(&model, &"s0", &ctl!(AX(AX(AX(Or(Atom("p"), Atom("q"))))))));
+        assert!(verify(&model, &"s0", &ctl!(AX(Imply(Atom("p"), Not(Atom("q")))))));
     }
 
     #[test]
@@ -113,9 +113,9 @@ mod tests {
             ]
         );
 
-        assert!(verify(&model, &"s0", &_ctlb!(EG, _ctlb!(Atom, "p"))));
-        assert!(verify(&model, &"s0", &_ctlb!(EG, _ctlb!(Not, _ctlb!(Atom, "q")))));
-        assert!(!verify(&model, &"s0", &_ctlb!(EG, _ctlb!(And, _ctlb!(Atom, "p"), _ctlb!(Atom, "q")))));
+        assert!(verify(&model, &"s0", &ctl!(EG(Atom("p")))));
+        assert!(verify(&model, &"s0", &ctl!(EG(Not(Atom("q"))))));
+        assert!(!verify(&model, &"s0", &ctl!(EG(And(Atom("p"),Atom("q"))))));
     }
 
     #[test]
@@ -135,9 +135,9 @@ mod tests {
             ]
         );
 
-        assert!(!verify(&model, &"s0", &_ctlb!(AG, _ctlb!(Atom, "p"))));
-        assert!(verify(&model, &"s0", &_ctlb!(AG, _ctlb!(Imply, _ctlb!(Atom, "q"), _ctlb!(Atom, "p")))));
-        assert!(verify(&model, &"s0", &_ctlb!(AG, _ctlb!(EX, _ctlb!(Atom, "p")))));
+        assert!(!verify(&model, &"s0", &ctl!(AG(Atom("p")))));
+        assert!(verify(&model, &"s0", &ctl!(AG(Imply(Atom("q"), Atom("p"))))));
+        assert!(verify(&model, &"s0", &ctl!(AG(EX(Atom("p"))))));
     }
 
     #[test]
@@ -157,9 +157,9 @@ mod tests {
             ]
         );
 
-        assert!(verify(&model, &"s0", &_ctlb!(EF, _ctlb!(AG, _ctlb!(Atom, "r")))));
-        assert!(verify(&model, &"s0", &_ctlb!(EF, _ctlb!(AX, _ctlb!(Atom, "r")))));
-        assert!(!verify(&model, &"s0", &_ctlb!(EF, _ctlb!(And, _ctlb!(Atom, "p"), _ctlb!(Atom, "q")))));
+        assert!(verify(&model, &"s0", &ctl!(EF(AG(Atom("r"))))));
+        assert!(verify(&model, &"s0", &ctl!(EF(AX(Atom("r"))))));
+        assert!(!verify(&model, &"s0", &ctl!(EF(And(Atom("p"), Atom("q"))))));
     }
 
     #[test]
@@ -179,9 +179,9 @@ mod tests {
             ]
         );
 
-        assert!(!verify(&model, &"s0", &_ctlb!(AF, _ctlb!(Atom, "r"))));
-        assert!(verify(&model, &"s0", &_ctlb!(AF, _ctlb!(Or, _ctlb!(EG, _ctlb!(Atom, "p")), _ctlb!(EG, _ctlb!(Atom, "r"))))));
-        assert!(verify(&model, &"s0", &_ctlb!(AF, _ctlb!(Imply, _ctlb!(Atom, "r"), _ctlb!(Or, _ctlb!(Atom, "p"), _ctlb!(Atom, "q"))))));
+        assert!(!verify(&model, &"s0", &ctl!(AF(Atom("r")))));
+        assert!(verify(&model, &"s0", &ctl!(AF(Or(EG(Atom("p")), EG(Atom("r")))))));
+        assert!(verify(&model, &"s0", &ctl!(AF(Imply(Atom("r"), Or(Atom("p"), Atom("q")))))));
     }
 
     #[test]
@@ -201,9 +201,9 @@ mod tests {
             ]
         );
 
-        assert!(verify(&model, &"s0", &_ctlb!(EU, _ctlb!(Atom, "p"), _ctlb!(Atom, "q"))));
-        assert!(verify(&model, &"s0", &_ctlb!(EU, _ctlb!(Atom, "p"), _ctlb!(EG, _ctlb!(Atom, "p")))));
-        assert!(!verify(&model, &"s0", &_ctlb!(EU, _ctlb!(And, _ctlb!(Atom, "p"), _ctlb!(Atom, "r")), _ctlb!(Atom, "q"))));
+        assert!(verify(&model, &"s0", &ctl!(EU(Atom("p"), Atom("q")))));
+        assert!(verify(&model, &"s0", &ctl!(EU(Atom("p"), EG(Atom("p"))))));
+        assert!(!verify(&model, &"s0", &ctl!(EU(And(Atom("p"), Atom("r")), Atom("q")))));
     }
 
     #[test]
@@ -223,16 +223,9 @@ mod tests {
             ]
         );
 
-        assert!(verify(&model, &"s0", &_ctlb!(AU, _ctlb!(Atom, "p"), _ctlb!(Atom, "q"))));
-        assert!(verify(&model, &"s0", &_ctlb!(AU, _ctlb!(Atom, "p"), _ctlb!(AG, _ctlb!(Or, _ctlb!(Atom, "r"), _ctlb!(Atom, "q"))))));
-        assert!(!verify(&model, &"s0", &_ctlb!(AU, _ctlb!(Atom, "p"), _ctlb!(Atom, "r"))));
-    }
-
-    #[test]
-    fn testing() {
-        let x : CTLFormula<i32> = ctl!(And(Atom(5), AX(Atom(3))));
-
-        println!("{}", x);
+        assert!(verify(&model, &"s0", &ctl!(AU(Atom("p"), Atom("q")))));
+        assert!(verify(&model, &"s0", &ctl!(AU(Atom("p"), AG(Or(Atom("r"), Atom("q")))))));
+        assert!(!verify(&model, &"s0", &ctl!(AU(Atom("p"), Atom("r")))));
     }
 
 }
