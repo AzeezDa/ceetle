@@ -1,14 +1,5 @@
 use std::fmt;
 
-#[macro_export]
-macro_rules! ctl {
-    (True) => {ceetle::CTLFormula::True};
-    (False) => {ceetle::CTLFormula::False};
-    (Atom, $e1:expr) => {ceetle::CTLFormula::Atom($e1)};
-    ($t:tt, $e1:expr) => {ceetle::CTLFormula::$t(Box::new($e1))};
-    ($t:tt, $e1:expr, $e2:expr) => {ceetle::CTLFormula::$t(Box::new($e1), Box::new($e2))};
-}
-
 // Used for testing and debugging
 #[macro_export]
 macro_rules! _ctlb {

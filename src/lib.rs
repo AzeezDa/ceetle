@@ -1,6 +1,8 @@
 mod model;
 pub use model::*;
 
+use ctl_proc_macro::ctl;
+
 #[cfg(test)]
 mod tests {
     use std::{collections::HashMap, vec};
@@ -226,5 +228,11 @@ mod tests {
         assert!(!verify(&model, &"s0", &_ctlb!(AU, _ctlb!(Atom, "p"), _ctlb!(Atom, "r"))));
     }
 
+    #[test]
+    fn testing() {
+        let x : CTLFormula<i32> = ctl!(And(Atom(5), AX(Atom(3))));
+
+        println!("{}", x);
+    }
 
 }
