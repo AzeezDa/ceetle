@@ -13,25 +13,25 @@ pub trait Model<S, A> {
     fn transitions(&self, state: &S) -> &Vec<S>;
 }
 
-/// # `DiscreteModel`
-/// The `DiscreteModel` is identical to a finite-state automaton. It uses a `Vec` to store each state together with its atoms and transitions. 
+/// # `VecDiscreteModel`
+/// The `VecDiscreteModel` is identical to a finite-state automaton. It uses a `Vec` to store each state together with its atoms and transitions. 
 /// Therefore, lookup is `O(n)`, where `n` is the number of states.
-pub struct DiscreteModel<S, A> {
+pub struct VecDiscreteModel<S, A> {
     states: Vec<(S, Vec<A>, Vec<S>)>,
 }
 
-impl<S: PartialEq, A: PartialEq> DiscreteModel<S, A> {
+impl<S: PartialEq, A: PartialEq> VecDiscreteModel<S, A> {
     /// # `new`
-    /// Returns a new `DiscreteModel` with a structure given as a `Vec` of tuples `(S, Vec<A>, Vec<S>)`, where
+    /// Returns a new `VecDiscreteModel` with a structure given as a `Vec` of tuples `(S, Vec<A>, Vec<S>)`, where
     /// - The first value is the state label
     /// - The second value is a `Vec` of atoms that hold in that state
     /// - The last value is a `Vec` of states that can be transitioned to from this state
     /// 
     /// ## Examples
     /// ```
-    /// use ceetle::DiscreteModel;
+    /// use ceetle::VecDiscreteModel;
     /// 
-    /// let model = DiscreteModel::new(vec![
+    /// let model = VecDiscreteModel::new(vec![
     ///     ("s0", vec!["a"], vec!["s0", "s1"]),
     ///     ("s1", vec!["a", "b"], vec!["s0"])
     /// ]);
@@ -43,7 +43,7 @@ impl<S: PartialEq, A: PartialEq> DiscreteModel<S, A> {
     }
 }
 
-impl<S: PartialEq, A: PartialEq> Model<S, A> for DiscreteModel<S, A> {
+impl<S: PartialEq, A: PartialEq> Model<S, A> for VecDiscreteModel<S, A> {
 
     /// # `state_has`
     /// Takes a state and an atom and returns true if the atom holds in that state. This operation is `O(n)`, where `n` is the number of states.
@@ -122,3 +122,4 @@ impl<S: Eq + Hash, A: PartialEq> Model<S, A> for HashedDiscreteModel<S, A> {
         panic!("State is not in model!");
     }
 }
+

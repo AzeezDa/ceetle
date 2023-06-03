@@ -7,9 +7,9 @@ use super::{CTLFormula, Model};
 /// 
 /// ## Examples
 /// ```
-/// use ceetle::{DiscreteModel, verify, ctl, CTLFormula};
+/// use ceetle::{VecDiscreteModel, verify, ctl, CTLFormula};
 /// 
-/// let model = DiscreteModel::new(
+/// let model = VecDiscreteModel::new(
 /// // ...
 /// # vec![
 /// #     ("s0", vec!["a"], vec!["s0", "s1"]),
