@@ -1,15 +1,8 @@
 use std::fmt;
 
-// Used for testing and debugging
-#[macro_export]
-macro_rules! _ctlb {
-    (True) => {CTLFormula::True};
-    (False) => {CTLFormula::False};
-    (Atom, $e1:expr) => {CTLFormula::Atom($e1)};
-    ($t:tt, $e1:expr) => {CTLFormula::$t(Box::new($e1))};
-    ($t:tt, $e1:expr, $e2:expr) => {CTLFormula::$t(Box::new($e1), Box::new($e2))};
-}
-
+/// # `CTLFormula`
+/// `CTLFormula` represents a Computional Tree Logic formula that is used to verify models. 
+/// It will almost always be easier to generate `CTLFormula`s using the `ctl` macro.
 pub enum CTLFormula<T: PartialEq> {
     True,
     False,
@@ -28,6 +21,7 @@ pub enum CTLFormula<T: PartialEq> {
     EU(Box<CTLFormula<T>>, Box<CTLFormula<T>>),
 }
 
+// Formatting for println!("{}")
 impl<T: fmt::Display + PartialEq> fmt::Display for CTLFormula<T> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {

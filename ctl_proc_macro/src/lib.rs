@@ -1,11 +1,7 @@
 use proc_macro::TokenStream;
-use proc_macro2::{Group, TokenStream as TokenStream2};
-use quote::{quote, ToTokens};
-use syn::{
-    parenthesized,
-    parse::{Lookahead1, Parse},
-    parse_macro_input, Expr, Token,
-};
+use proc_macro2::TokenStream as TokenStream2;
+use quote::quote;
+use syn::{parenthesized, parse::Parse, parse_macro_input, Expr, Token};
 
 macro_rules! process {
     ($keyword:tt in $input:tt as $out:ty) => {
@@ -112,12 +108,25 @@ impl Parse for CTLFormula {
             return process!(Imply 2 in input as boxed CTLFormula);
         } else if lookahead.peek(kw::EU) {
             return process!(EU 2 in input as boxed CTLFormula);
-        } 
+        }
 
         Err(lookahead.error())
     }
 }
 
+/// # `ctl`
+/// The `ctl` macro helps generating CTL formulas much easier than using the `CTLFormula`.
+/// This macro uses the following syntax:
+/// 
+/// ```f = True | False | Atom(p) | Not(f) | AG(f) | AF(f) | AX(f) | EG(f) | EF(f) | EX(f) | And(f,f) | Or(f,f) | Imply(f,f) | AU(f,f) | EU(f,f)```
+/// where `p` is any value.
+/// 
+/// ## Examples
+/// ```
+/// let f = ctl!(AX(Atom(5))); // Translates to "AX(5)"
+/// let g = ctl!(And(Atom(1), AG(Atom(3)))); // Translates to "1 ∧ AG(3)"
+/// let h = ctl!(Or(Imply(Atom(1), Atom(3)), EU(Atom(1), Atom(2)))); // Translates to "(1 → 3) ∨ E[1 U 2]""
+/// ```
 #[proc_macro]
 pub fn ctl(_input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(_input as CTLFormula);
@@ -162,27 +171,27 @@ fn get_ctl(input: CTLFormula) -> TokenStream2 {
             let left = get_ctl(*left);
             let right = get_ctl(*right);
             quote!(#result CTLFormula::And(Box::new(#left), Box::new(#right)))
-        },
+        }
         CTLFormula::Or(left, right) => {
             let left = get_ctl(*left);
             let right = get_ctl(*right);
             quote!(#result CTLFormula::Or(Box::new(#left), Box::new(#right)))
-        },
+        }
         CTLFormula::AU(left, right) => {
             let left = get_ctl(*left);
             let right = get_ctl(*right);
             quote!(#result CTLFormula::AU(Box::new(#left), Box::new(#right)))
-        },
+        }
         CTLFormula::Imply(left, right) => {
             let left = get_ctl(*left);
             let right = get_ctl(*right);
             quote!(#result CTLFormula::Imply(Box::new(#left), Box::new(#right)))
-        },
+        }
         CTLFormula::EU(left, right) => {
             let left = get_ctl(*left);
             let right = get_ctl(*right);
             quote!(#result CTLFormula::EU(Box::new(#left), Box::new(#right)))
-        },
+        }
     };
     result
 }

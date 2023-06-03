@@ -1,8 +1,6 @@
 mod model;
 pub use model::*;
 
-use ctl_proc_macro::ctl;
-
 #[cfg(test)]
 mod tests {
     use std::{collections::HashMap, vec};
@@ -227,5 +225,4 @@ mod tests {
         assert!(verify(&model, &"s0", &ctl!(AU(Atom("p"), AG(Or(Atom("r"), Atom("q")))))));
         assert!(!verify(&model, &"s0", &ctl!(AU(Atom("p"), Atom("r")))));
     }
-
 }

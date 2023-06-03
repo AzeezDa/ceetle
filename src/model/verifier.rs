@@ -2,6 +2,32 @@ use std::collections::VecDeque;
 
 use super::{CTLFormula, Model};
 
+/// # `verify`
+/// The `verify` function takes a `Model`, a state and a `CTLFormula` and checks if the formula holds in the given state of that model.
+/// 
+/// ## Examples
+/// ```
+/// use ceetle::{DiscreteModel, verify, ctl, CTLFormula};
+/// 
+/// let model = DiscreteModel::new(
+/// // ...
+/// # vec![
+/// #     ("s0", vec!["a"]),
+/// #     ("s1", vec!["a", "b"]),
+/// #     ("s2", vec!["a"]),
+/// #     ("s3", vec!["a", "c"]),
+/// # ],
+/// # vec![
+/// #     ("s0", vec!["s0", "s1"]),
+/// #     ("s1", vec!["s0", "s2"]),
+/// #     ("s2", vec!["s3"]),
+/// #     ("s3", vec!["s1", "s3"]),
+/// # ]
+/// );
+/// 
+/// let formula = ctl!(AX(Atom("a")));
+/// assert!(verify(&model, &"s0", &formula))
+/// ``` 
 pub fn verify<S: PartialEq, T: PartialEq>(
     model: &dyn Model<S, T>,
     state: &S,
@@ -11,16 +37,10 @@ pub fn verify<S: PartialEq, T: PartialEq>(
         CTLFormula::True => true,
         CTLFormula::False => false,
         CTLFormula::Atom(atom) => model.state_has(&state, &atom),
-        CTLFormula::And(formula1, formula2) => {
-            verify(model, state, formula1) && verify(model, state, formula2)
-        }
-        CTLFormula::Or(formula1, formula2) => {
-            verify(model, state, formula1) || verify(model, state, formula2)
-        }
+        CTLFormula::And(formula1, formula2) => verify(model, state, formula1) && verify(model, state, formula2),
+        CTLFormula::Or(formula1, formula2) => verify(model, state, formula1) || verify(model, state, formula2),
         CTLFormula::Not(formula) => !verify(model, state, formula),
-        CTLFormula::Imply(formula1, formula2) => {
-            !verify(model, state, formula1) || verify(model, state, formula2)
-        }
+        CTLFormula::Imply(formula1, formula2) => !verify(model, state, formula1) || verify(model, state, formula2),
         CTLFormula::AG(subformula) => check_all_paths_global(model, state, subformula),
         CTLFormula::AF(subformula) => check_all_future(model, state, subformula),
         CTLFormula::AX(subformula) => check_all_nexts(model, state, subformula),
@@ -31,6 +51,9 @@ pub fn verify<S: PartialEq, T: PartialEq>(
         CTLFormula::EU(formula, until) => check_any_until(model, state, formula, until),
     }
 }
+
+// ================== VERIFIERS ==================
+// Most algorithms below are different versions of BFS
 
 fn check_all_nexts<S: PartialEq, T: PartialEq>(
     model: &dyn Model<S, T>,
