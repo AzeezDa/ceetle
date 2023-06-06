@@ -13,5 +13,4 @@ categories = ["science", "mathematics", "algorithms", "logic"]
 maintenance = { status = "passively-maintained" }
 
 [dependencies]
-ceetle_macros = { path = "../ceetle_macros" }
-
+ceetle_macros = "0.1.0"
