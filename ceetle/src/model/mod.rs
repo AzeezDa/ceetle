@@ -7,4 +7,4 @@ pub use tl_syntax::*;
 mod verifier;
 pub use verifier::*;
 
-pub use ctl_proc_macro::ctl;
+pub use ceetle_macros::ctl;
