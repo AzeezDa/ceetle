@@ -2,7 +2,7 @@ use std::fmt;
 
 /// # `CTLFormula`
 /// `CTLFormula` represents a Computional Tree Logic formula that is used to verify models. 
-/// It will almost always be easier to generate `CTLFormula`s using the `ctl` macro.
+/// It will almost always be easier to generate `CTLFormula`s using the [`ctl`](crate::ctl) macro.
 pub enum CTLFormula<T: PartialEq> {
     True,
     False,
@@ -32,43 +32,43 @@ impl<T: fmt::Display + PartialEq> fmt::Display for CTLFormula<T> {
                 write!(f, "⊥")
             }
             Self::Atom(value) => {
-                write!(f, "{}", value)
+                write!(f, "{value}")
             }
             Self::And(value, value2) => {
-                write!(f, "({}∧{})", value, value2)
+                write!(f, "({value}∧{value2})")
             }
             Self::Or(value, value2) => {
-                write!(f, "({}∨{})", value, value2)
+                write!(f, "({value}∨{value2})")
             }
             Self::Not(value) => {
                 write!(f, "¬{}", value)
             }
             Self::Imply(value, value2) => {
-                write!(f, "({}→{})", value, value2)
+                write!(f, "({value}→{value2})")
             }
             Self::AG(value) => {
-                write!(f, "AG{}", value)
+                write!(f, "AG({value})")
             }
             Self::AF(value) => {
-                write!(f, "AF{}", value)
+                write!(f, "AF({value})")
             }
             Self::AX(value) => {
-                write!(f, "AX{}", value)
+                write!(f, "AX({value})")
             }
             Self::AU(value, value2) => {
-                write!(f, "A[{} U {}]", value, value2)
+                write!(f, "A[{value} U {value2}]")
             }
             Self::EG(value) => {
-                write!(f, "EG{}", value)
+                write!(f, "EG({value})")
             }
             Self::EF(value) => {
-                write!(f, "EF{}", value)
+                write!(f, "EF({value})")
             }
             Self::EX(value) => {
-                write!(f, "EX{}", value)
+                write!(f, "EX({value})")
             }
             Self::EU(value, value2) => {
-                write!(f, "E[{} U {}]", value, value2)
+                write!(f, "E[{value} U {value2}]")
             }
         }
     }

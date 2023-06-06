@@ -8,6 +8,8 @@ use std::{collections::HashMap, hash::Hash};
 /// 
 /// The model is parametrised by two types `S` and `A`. `S` is the type of state, usually states are be labeled by a string (`s0`, `s1`, etc.), so a `&str` could work here. 
 /// The `A` type is the type of atoms used in the model, usually a string or char (`p`, `q`, etc.) is used for `A` as well.
+/// 
+/// Use this trait if you want to create your own model types other than the `VecDiscreteModel` and `HashedDiscreteModel`
 pub trait Model<S, A> {
     fn state_has(&self, state: &S, atom: &A) -> bool;
     fn transitions(&self, state: &S) -> &Vec<S>;
@@ -32,7 +34,7 @@ impl<S: PartialEq, A: PartialEq> VecDiscreteModel<S, A> {
     /// use ceetle::VecDiscreteModel;
     /// 
     /// let model = VecDiscreteModel::new(vec![
-    ///     ("s0", vec!["a"], vec!["s0", "s1"]),
+    ///     ("s0", vec!["a"],      vec!["s0", "s1"]),
     ///     ("s1", vec!["a", "b"], vec!["s0"])
     /// ]);
     /// ```
@@ -88,9 +90,9 @@ impl<S: PartialEq, A: PartialEq> HashedDiscreteModel<S, A> {
     /// use ceetle::HashedDiscreteModel;
     /// 
     /// let mut states = HashMap::new();
-    /// states.insert("s0", (vec!["a"], vec!["s0", "s1"]));
+    /// states.insert("s0", (vec!["a"],      vec!["s0", "s1"]));
     /// states.insert("s1", (vec!["a", "b"], vec!["s0", "s2"]));
-    /// states.insert("s2", (vec!["a"], vec!["s3"]));
+    /// states.insert("s2", (vec!["a"],      vec!["s3"]));
     /// states.insert("s3", (vec!["a", "c"], vec!["s1", "s3"]));
     /// 
     /// let model = HashedDiscreteModel::new(states);

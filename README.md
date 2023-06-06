@@ -1,4 +1,4 @@
-# ceetle - A Computional Tree Logic Verifier
+# `ceetle` - A Computional Tree Logic Verifier
 A Rust Library for defining models in Computational Tree Logic and verifying their semantics. See [Wikipedia](https://en.wikipedia.org/wiki/Computation_tree_logic) to learn more.
 
 The library is **passively-maintained**, which means there will be no other features added however issues on the GitHub will be answered and solved.
