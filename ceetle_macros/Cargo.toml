@@ -6,8 +6,6 @@ license = "MIT"
 description = "Procedural Macros for the ceetle Library"
 readme = "README.md"
 repository = "https://github.com/AzeezDa/ceetle"
-keywords = ["logic", "testing", "automaton"]
-categories = ["science", "mathematics", "algorithms", "logic"]
 
 [lib]
 name = "ceetle_macros"
