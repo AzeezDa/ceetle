@@ -1,6 +1,7 @@
 use std::{collections::HashMap, hash::Hash};
 
-/// # `Model`
+/// General trait for constructing any model that can CTL Semantics can be applied on
+/// 
 /// Any Computional Tree Logic model can be built using two functions: a membership function and a transition function. 
 /// The `Model` trait is a generalisation of the state-model, where:
 /// - The `state_has` function is the membership function that takes a state in the model and an atom and returns true if the atom exists in the state
@@ -15,7 +16,8 @@ pub trait Model<S, A> {
     fn transitions(&self, state: &S) -> &Vec<S>;
 }
 
-/// # `VecDiscreteModel`
+/// A `Vector`-based model of a Finite State Automaton
+/// 
 /// The `VecDiscreteModel` is identical to a finite-state automaton. It uses a `Vec` to store each state together with its atoms and transitions. 
 /// Therefore, lookup is `O(n)`, where `n` is the number of states.
 pub struct VecDiscreteModel<S, A> {
@@ -70,7 +72,8 @@ impl<S: PartialEq, A: PartialEq> Model<S, A> for VecDiscreteModel<S, A> {
     }
 }
 
-/// # `HashedDiscreteModel`
+/// A `HashMap`-based model for a Finite State Automaton
+/// 
 /// The `HashedDiscreteModel` is identical to a finite-state automaton. It uses a `HashMap` to store each state together with its atoms and transitions. 
 /// Therefore, lookup is `O(1)`.
 pub struct HashedDiscreteModel<S, A> {

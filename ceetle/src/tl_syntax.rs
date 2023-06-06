@@ -1,6 +1,7 @@
 use std::fmt;
 
-/// # `CTLFormula`
+/// Computional Tree Logic formula (See [Wikipedia](https://en.wikipedia.org/wiki/Computation_tree_logic))
+/// 
 /// `CTLFormula` represents a Computional Tree Logic formula that is used to verify models. 
 /// It will almost always be easier to generate `CTLFormula`s using the [`ctl`](crate::ctl) macro.
 pub enum CTLFormula<T: PartialEq> {

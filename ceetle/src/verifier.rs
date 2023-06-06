@@ -2,7 +2,8 @@ use std::collections::VecDeque;
 
 use super::{CTLFormula, Model};
 
-/// # `verify`
+/// Function `verify` that verifies that a CTL formula holds 
+/// 
 /// The `verify` function takes a `Model`, a state and a `CTLFormula` and checks if the formula holds in the given state of that model.
 /// 
 /// ## Examples

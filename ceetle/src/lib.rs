@@ -9,4 +9,5 @@ pub use verifier::*;
 
 pub use ceetle_macros::*;
 
+#[cfg(test)]
 mod tests;
